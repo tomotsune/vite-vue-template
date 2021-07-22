@@ -1,0 +1,43 @@
+name: 打包应用并上传阿里云
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 获取源码
+      - name: 迁出代码
+        uses: actions/checkout@master
+
+      - name: 安装node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.0.0
+      # 安装依赖
+      - name: 安装依赖
+        run: npm install
+
+      # 打包
+      - name: 打包
+        run: npm run build
+
+      # 发布到阿里云
+      - name: 发布到阿里云
+        uses: easingthemes/ssh-deploy@2.1.1
+        env:
+          # 密钥
+          SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KET }}
+          # scp参数
+          ARGS: "-avzr --delete"
+          # 源目录
+          SOURCE: "dist"
+          # 服务器ip
+          REMOTE_HOST: "tomotsune.asia"
+          # 用户
+          REMOTE_USER: "root"
+          # 目标地址
+          TARGET: "/root/vite-vue-template"
