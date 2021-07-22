@@ -36,7 +36,7 @@ jobs:
           # 源目录
           SOURCE: "dist"
           # 服务器ip
-          REMOTE_HOST: "tomotsune.asia"
+          REMOTE_HOST: "1.15.32.51"
           # 用户
           REMOTE_USER: "root"
           # 目标地址
